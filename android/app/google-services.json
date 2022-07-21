@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "100382217810",
+    "project_id": "spruce-clean",
+    "storage_bucket": "spruce-clean.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:100382217810:android:113078f66b4e6c1f52318b",
+        "android_client_info": {
+          "package_name": "com.example.clean_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "100382217810-4018nad5dk6t1npqudu4edukndgpojip.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTPLXIKCSCli5RD9qFiFgGHl4BRN8bWJM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "100382217810-4018nad5dk6t1npqudu4edukndgpojip.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
