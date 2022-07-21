@@ -1,6 +1,6 @@
 import 'package:clean_app/models/get_total.dart';
 import 'package:clean_app/views/cart_screen.dart';
-import 'package:clean_app/views/company_screen.dart';
+
 import 'package:clean_app/views/home_screen.dart';
 import 'package:clean_app/views/order_screen.dart';
 import 'package:clean_app/views/user_screen.dart';
