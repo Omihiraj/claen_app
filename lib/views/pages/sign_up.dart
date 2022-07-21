@@ -3,15 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class SignIn extends StatefulWidget {
-  final VoidCallback onClickedSignUp;
-  const SignIn({Key? key, required this.onClickedSignUp}) : super(key: key);
+class SignUp extends StatefulWidget {
+  final VoidCallback onClickedSignIn;
+  const SignUp({Key? key, required this.onClickedSignIn}) : super(key: key);
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignUpState extends State<SignUp> {
   final emailController = TextEditingController();
   final passController = TextEditingController();
   bool isPassVisible = false;
@@ -36,11 +36,11 @@ class _SignInState extends State<SignIn> {
             width: screenWidth,
           ),
           const SizedBox(
-            height: 20,
+            height: 10,
           ),
           const Center(
             child: Text(
-              "Login Now",
+              "Register Now",
               style: TextStyle(
                   color: Colors.purple,
                   fontSize: 32,
@@ -115,7 +115,7 @@ class _SignInState extends State<SignIn> {
           ),
           InkWell(
             onTap: () {
-              FireService.signInFire(
+              FireService.signUpFire(
                   emailController.text.trim(), passController.text.trim());
             },
             child: Container(
@@ -134,7 +134,7 @@ class _SignInState extends State<SignIn> {
                   borderRadius: BorderRadius.circular(30)),
               child: const Center(
                   child: Text(
-                "Sign In",
+                "Sign Up",
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
@@ -149,13 +149,13 @@ class _SignInState extends State<SignIn> {
           Center(
             child: RichText(
               text: TextSpan(
-                text: 'No Account? ',
+                text: 'Already have an account? ',
                 style: DefaultTextStyle.of(context).style,
                 children: <TextSpan>[
                   TextSpan(
                       recognizer: TapGestureRecognizer()
-                        ..onTap = widget.onClickedSignUp,
-                      text: 'SignUp',
+                        ..onTap = widget.onClickedSignIn,
+                      text: 'SignIn',
                       style: const TextStyle(
                           decoration: TextDecoration.underline,
                           fontWeight: FontWeight.bold,

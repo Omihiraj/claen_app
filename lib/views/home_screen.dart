@@ -12,12 +12,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            _scaffoldKey.currentState!.openDrawer();
+          },
+          icon: Icon(Icons.menu),
+          color: Color.fromARGB(255, 202, 202, 202),
+          iconSize: 32,
+        ),
         elevation: 0,
         backgroundColor: Colors.white,
         actions: const [
@@ -32,6 +42,32 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
+      drawer: Drawer(
+          backgroundColor: Colors.white,
+          child: ListView(
+            children: [
+              const SizedBox(
+                height: 50,
+              ),
+              Image.asset("assets/spruce-logo.png"),
+              const Center(
+                  child: Text(
+                "About",
+                style: TextStyle(fontSize: 28),
+              )),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                child: const Center(
+                  child: Text(
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin imperdiet faucibus ligula ac ultrices. Duis sem quam, dignissim eget est vel, condimentum suscipit nulla. Quisque feugiat enim vitae nunc accumsan aliquet. In viverra laoreet ullamcorper. Duis in mattis metus. Morbi et imperdiet purus. Nunc metus nunc, convallis eget risus eget, elementum accumsan sapien. Nunc justo diam, convallis quis erat laoreet, volutpat hendrerit erat. Quisque tristique ut mauris sed tempus.",
+                  ),
+                ),
+              ),
+            ],
+          )),
       body: ListView(children: [
         Container(
           width: screenWidth,

@@ -1,7 +1,10 @@
 import 'package:clean_app/models/book.dart';
 import 'package:clean_app/models/location.dart';
 import 'package:clean_app/models/service.dart';
+import 'package:clean_app/views/cart_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class FireService {
   static Stream<List<Service>> getServices() => FirebaseFirestore.instance
@@ -19,7 +22,8 @@ class FireService {
           snapshot.docs.map((doc) => Location.fromJson(doc.data())).toList());
 
   static Future putBook(
-      {required String userId,
+      {required BuildContext context,
+      required String userId,
       required int beds,
       required int cleaners,
       required Timestamp date,
@@ -30,8 +34,12 @@ class FireService {
       required String serviceId,
       required String serviceName,
       required String img}) async {
-    final book = FirebaseFirestore.instance.collection("booking").doc();
+    final String bookingId =
+        FirebaseFirestore.instance.collection("booking").doc().id;
+    final book =
+        FirebaseFirestore.instance.collection("booking").doc(bookingId);
     final bookItem = Book(
+        bookingId: bookingId,
         serviceName: serviceName,
         img: img,
         userId: userId,
@@ -46,12 +54,18 @@ class FireService {
         status: 0);
 
     final json = bookItem.toJson();
-    await book.set(json);
+    await book
+        .set(json)
+        .then((value) => Navigator.push(
+            context, MaterialPageRoute(builder: (context) => CartScreen())))
+        .catchError((error) {
+      print("Some Error Occured");
+    });
   }
 
   static Stream<List<Book>> getBook() => FirebaseFirestore.instance
       .collection("booking")
-      .where("user-id", isEqualTo: "9876")
+      .where("user-id", isEqualTo: "1234")
       .snapshots()
       .map((snapshot) =>
           snapshot.docs.map((doc) => Book.fromJson(doc.data())).toList());
@@ -59,6 +73,7 @@ class FireService {
   static Stream<List<Book>> activeOrders() => FirebaseFirestore.instance
       .collection("booking")
       .where("status", isEqualTo: 1)
+      .where("user-id", isEqualTo: "1234")
       .snapshots()
       .map((snapshot) =>
           snapshot.docs.map((doc) => Book.fromJson(doc.data())).toList());
@@ -66,7 +81,29 @@ class FireService {
   static Stream<List<Book>> completeOrders() => FirebaseFirestore.instance
       .collection("booking")
       .where("status", isEqualTo: 2)
+      .where("user-id", isEqualTo: "1234")
       .snapshots()
       .map((snapshot) =>
           snapshot.docs.map((doc) => Book.fromJson(doc.data())).toList());
+
+  static deleteBook(String id) =>
+      FirebaseFirestore.instance.collection("booking").doc(id).delete();
+
+  static Future signInFire(String user, String pass) async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: user, password: pass);
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+  }
+
+  static Future signUpFire(String user, String pass) async {
+    try {
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: user, password: pass);
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+  }
 }

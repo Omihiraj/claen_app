@@ -29,8 +29,11 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   int daySelectItem = 0;
   double? latitude;
   double? longitude;
-
+  String year = DateTime.now().year.toString();
+  String? selectDate;
+  String? selectTime;
   TimeOfDay time = TimeOfDay(hour: 10, minute: 30);
+
   @override
   Widget build(BuildContext context) {
     print("Rooms $rooms   Hours  $hours  Cleaners  $cleaners");
@@ -270,6 +273,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                   if (newTime == null) return;
                   setState(() {
                     time = newTime;
+                    String hour = time.hour.toString().padLeft(2, '0');
+                    String minute = time.minute.toString().padLeft(2, '0');
+                    selectTime = "$hour:$minute";
                   });
                 },
                 child: Container(
@@ -302,27 +308,47 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           height: 40,
         ),
         Center(
-          child: Container(
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.horizontal(
-                  left: Radius.circular(30), right: Radius.circular(30)),
-              color: Colors.lightGreen,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  offset: Offset(0.0, 0.0), //(x,y)
-                  blurRadius: 6.0,
-                ),
-              ],
+          child: InkWell(
+            onTap: () {
+              FireService.putBook(
+                  context: context,
+                  userId: "1234",
+                  beds: rooms,
+                  cleaners: cleaners,
+                  date: Timestamp.fromDate(
+                      DateTime.parse(selectDate! + " " + selectTime!)),
+                  hours: hours,
+                  location: [],
+                  materials: {"1": 1},
+                  price: total,
+                  serviceId: widget.service.id,
+                  img: widget.service.img,
+                  serviceName: widget.service.name);
+
+              print(selectDate! + " " + selectTime!);
+            },
+            child: Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.horizontal(
+                    left: Radius.circular(30), right: Radius.circular(30)),
+                color: Colors.lightGreen,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    offset: Offset(0.0, 0.0), //(x,y)
+                    blurRadius: 6.0,
+                  ),
+                ],
+              ),
+              padding: const EdgeInsets.all(20),
+              width: screenWidth * 0.8,
+              child: const Center(
+                  child: Text("Add to cart",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontWeight: FontWeight.w600))),
             ),
-            padding: const EdgeInsets.all(20),
-            width: screenWidth * 0.8,
-            child: const Center(
-                child: Text("Add to cart",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.w600))),
           ),
         ),
         const SizedBox(
@@ -414,6 +440,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
             child: InkWell(
               onTap: () {
                 setState(() {
+                  String monthNo =
+                      getDate()[3][index].toString().padLeft(2, '0');
+                  String day = getDate()[0][index].toString().padLeft(2, '0');
+                  selectDate = "$year-$monthNo-$day";
                   daySelectItem = index;
                 });
               },

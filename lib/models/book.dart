@@ -14,7 +14,8 @@ String bookToJson(List<Book> data) =>
 
 class Book {
   Book(
-      {required this.userId,
+      {required this.bookingId,
+      required this.userId,
       required this.beds,
       required this.cleaners,
       required this.date,
@@ -26,6 +27,7 @@ class Book {
       required this.serviceName,
       required this.img,
       required this.status});
+  String bookingId;
   String userId;
   int beds;
   int cleaners;
@@ -40,6 +42,7 @@ class Book {
   int status;
 
   factory Book.fromJson(Map<String, dynamic> json) => Book(
+      bookingId: json["booking-id"],
       serviceName: json["service-name"],
       img: json["img"],
       userId: json["user-id"],
@@ -55,6 +58,7 @@ class Book {
       status: json["status"]);
 
   Map<String, dynamic> toJson() => {
+        "booking-id": bookingId,
         "service-name": serviceName,
         "img": img,
         "user-id": userId,

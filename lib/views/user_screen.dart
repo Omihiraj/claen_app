@@ -1,3 +1,4 @@
+import 'package:clean_app/views/pages/auth_page.dart';
 import 'package:clean_app/views/pages/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class _UserScreenState extends State<UserScreen> {
               if (snapshot.hasData) {
                 return const UserPage();
               } else {
-                return const SignInPage();
+                return const AuthPage();
               }
             }));
   }
@@ -35,8 +36,25 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text("User Page")),
+    return Scaffold(
+      body: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            "User Page",
+            style: TextStyle(fontSize: 40),
+          ),
+          const SizedBox(
+            height: 50,
+          ),
+          TextButton(
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+              },
+              child: Text("LogOut")),
+        ],
+      )),
     );
   }
 }

@@ -95,7 +95,7 @@ class _OrderScreenState extends State<OrderScreen> {
   Widget builtService(Book book) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(screenWidth * 0.025),
       child: InkWell(
         // onTap: () => Navigator.push(
         //     context,
@@ -114,22 +114,25 @@ class _OrderScreenState extends State<OrderScreen> {
                 ],
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(20)),
-            width: double.infinity,
+            width: screenWidth,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 15.0),
+                  padding: EdgeInsets.only(left: screenWidth * 0.05),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        maxLines: 2,
-                        book.serviceName,
-                        style: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.lightGreen,
-                            fontWeight: FontWeight.bold),
+                      Container(
+                        width: screenWidth * 0.4,
+                        child: Text(
+                          maxLines: 2,
+                          book.serviceName,
+                          style: const TextStyle(
+                              fontSize: 20,
+                              color: Colors.lightGreen,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                       const SizedBox(height: 10),
                       Text("\$ ${book.price}.00",
