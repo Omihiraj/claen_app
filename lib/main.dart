@@ -1,4 +1,5 @@
 import 'package:clean_app/models/get_total.dart';
+import 'package:clean_app/views/cart_screen.dart';
 import 'package:clean_app/views/company_screen.dart';
 import 'package:clean_app/views/home_screen.dart';
 import 'package:clean_app/views/order_screen.dart';
@@ -38,7 +39,7 @@ class _MainPageState extends State<MainPage> {
   final screens = [
     const HomeScreen(),
     const OrderScreen(),
-    const CompanyScreen(),
+    const CartScreen(),
     const UserScreen()
   ];
   var index = 0;
