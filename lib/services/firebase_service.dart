@@ -63,28 +63,30 @@ class FireService {
     });
   }
 
-  static Stream<List<Book>> getBook() => FirebaseFirestore.instance
+  static Stream<List<Book>> getBook(String id) => FirebaseFirestore.instance
       .collection("booking")
-      .where("user-id", isEqualTo: "1234")
+      .where("user-id", isEqualTo: id)
       .snapshots()
       .map((snapshot) =>
           snapshot.docs.map((doc) => Book.fromJson(doc.data())).toList());
 
-  static Stream<List<Book>> activeOrders() => FirebaseFirestore.instance
-      .collection("booking")
-      .where("status", isEqualTo: 1)
-      .where("user-id", isEqualTo: "1234")
-      .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((doc) => Book.fromJson(doc.data())).toList());
+  static Stream<List<Book>> activeOrders(String id) =>
+      FirebaseFirestore.instance
+          .collection("booking")
+          .where("status", isEqualTo: 1)
+          .where("user-id", isEqualTo: id)
+          .snapshots()
+          .map((snapshot) =>
+              snapshot.docs.map((doc) => Book.fromJson(doc.data())).toList());
 
-  static Stream<List<Book>> completeOrders() => FirebaseFirestore.instance
-      .collection("booking")
-      .where("status", isEqualTo: 2)
-      .where("user-id", isEqualTo: "1234")
-      .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((doc) => Book.fromJson(doc.data())).toList());
+  static Stream<List<Book>> completeOrders(String id) =>
+      FirebaseFirestore.instance
+          .collection("booking")
+          .where("status", isEqualTo: 2)
+          .where("user-id", isEqualTo: id)
+          .snapshots()
+          .map((snapshot) =>
+              snapshot.docs.map((doc) => Book.fromJson(doc.data())).toList());
 
   static deleteBook(String id) =>
       FirebaseFirestore.instance.collection("booking").doc(id).delete();

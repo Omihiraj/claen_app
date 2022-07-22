@@ -1,5 +1,6 @@
 import 'package:clean_app/models/book.dart';
 import 'package:clean_app/services/firebase_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class OrderScreen extends StatefulWidget {
@@ -10,8 +11,20 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
+  bool userLog = false;
+  String? userId;
   @override
   Widget build(BuildContext context) {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+      } else {
+        userLog = true;
+        userId = user.email;
+
+        print('User is signed in!');
+      }
+    });
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -36,58 +49,69 @@ class _OrderScreenState extends State<OrderScreen> {
                 ]),
           ),
           body: TabBarView(children: [
-            StreamBuilder<List<Book>>(
-              stream: FireService.activeOrders(),
-              builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return const Center(child: CircularProgressIndicator());
-                  default:
-                    if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    } else {
-                      if (snapshot.data == null) {
-                        return const Text('No data to show');
-                      } else {
-                        final bookings = snapshot.data!;
+            userLog == true
+                ? StreamBuilder<List<Book>>(
+                    stream: FireService.activeOrders(userId!),
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        default:
+                          if (snapshot.hasError) {
+                            return Center(
+                                child: Text('Error: ${snapshot.error}'));
+                          } else {
+                            if (snapshot.data == null) {
+                              return const Text('No data to show');
+                            } else {
+                              final bookings = snapshot.data!;
 
-                        return ListView.builder(
-                          itemCount: bookings.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return builtService(bookings[index]);
-                          },
-                        );
+                              return ListView.builder(
+                                itemCount: bookings.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return builtService(bookings[index]);
+                                },
+                              );
+                            }
+                          }
                       }
-                    }
-                }
-              },
-            ),
-            StreamBuilder<List<Book>>(
-              stream: FireService.completeOrders(),
-              builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return const Center(child: CircularProgressIndicator());
-                  default:
-                    if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    } else {
-                      if (snapshot.data == null) {
-                        return const Text('No data to show');
-                      } else {
-                        final bookings = snapshot.data!;
+                    },
+                  )
+                : const Center(child: Text("Please Log!")),
+            userLog == true
+                ? StreamBuilder<List<Book>>(
+                    stream: FireService.completeOrders(userId!),
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                          return const Center(
+                              child: CircularProgressIndicator());
 
-                        return ListView.builder(
-                          itemCount: bookings.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return builtService(bookings[index]);
-                          },
-                        );
+                        default:
+                          if (snapshot.hasError) {
+                            return Center(
+                                child: Text('Error: ${snapshot.error}'));
+                          } else {
+                            if (snapshot.data == null) {
+                              return const Text(
+                                'No data to show',
+                              );
+                            } else {
+                              final bookings = snapshot.data!;
+
+                              return ListView.builder(
+                                itemCount: bookings.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return builtService(bookings[index]);
+                                },
+                              );
+                            }
+                          }
                       }
-                    }
-                }
-              },
-            ),
+                    },
+                  )
+                : const Center(child: Text("Please Log!")),
           ])),
     );
   }

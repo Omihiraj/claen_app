@@ -36,14 +36,15 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            "User Page",
-            style: TextStyle(fontSize: 40),
+          Text(
+            "${user.email}",
+            style: const TextStyle(fontSize: 40),
           ),
           const SizedBox(
             height: 50,

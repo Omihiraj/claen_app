@@ -150,7 +150,7 @@ class _SignInState extends State<SignIn> {
             child: RichText(
               text: TextSpan(
                 text: 'No Account? ',
-                style: DefaultTextStyle.of(context).style,
+                style: const TextStyle(color: Color.fromARGB(166, 0, 0, 0)),
                 children: <TextSpan>[
                   TextSpan(
                       recognizer: TapGestureRecognizer()

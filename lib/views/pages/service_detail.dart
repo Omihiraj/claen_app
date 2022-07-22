@@ -2,7 +2,10 @@ import 'package:clean_app/models/service.dart';
 import 'package:clean_app/services/firebase_service.dart';
 import 'package:clean_app/services/location_finder.dart';
 import 'package:clean_app/utils/calculator.dart';
+import 'package:clean_app/views/pages/auth_page.dart';
+import 'package:clean_app/views/user_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -33,9 +36,21 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   String? selectDate;
   String? selectTime;
   TimeOfDay time = TimeOfDay(hour: 10, minute: 30);
+  bool userLog = false;
+  String? userId;
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+      } else {
+        userLog = true;
+        userId = user.email;
+
+        print('User is signed in!');
+      }
+    });
     print("Rooms $rooms   Hours  $hours  Cleaners  $cleaners");
     LocationFinder.determinePosition().then((Map<String, dynamic> loc) {
       print("Latitude:${loc['latitude']} Altitude:${loc['altitude']}");
@@ -310,20 +325,37 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         Center(
           child: InkWell(
             onTap: () {
-              FireService.putBook(
-                  context: context,
-                  userId: "1234",
-                  beds: rooms,
-                  cleaners: cleaners,
-                  date: Timestamp.fromDate(
-                      DateTime.parse(selectDate! + " " + selectTime!)),
-                  hours: hours,
-                  location: [],
-                  materials: {"1": 1},
-                  price: total,
-                  serviceId: widget.service.id,
-                  img: widget.service.img,
-                  serviceName: widget.service.name);
+              if (userLog) {
+                FireService.putBook(
+                    context: context,
+                    userId: userId!,
+                    beds: rooms,
+                    cleaners: cleaners,
+                    date: Timestamp.fromDate(
+                        DateTime.parse(selectDate! + " " + selectTime!)),
+                    hours: hours,
+                    location: [],
+                    materials: {"1": 1},
+                    price: total,
+                    serviceId: widget.service.id,
+                    img: widget.service.img,
+                    serviceName: widget.service.name);
+              } else {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => StreamBuilder<User?>(
+                            stream: FirebaseAuth.instance.authStateChanges(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return ServiceDetails(
+                                  service: widget.service,
+                                );
+                              } else {
+                                return const AuthPage();
+                              }
+                            })));
+              }
 
               print(selectDate! + " " + selectTime!);
             },

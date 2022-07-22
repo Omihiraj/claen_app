@@ -1,6 +1,7 @@
 import 'package:clean_app/models/book.dart';
 
 import 'package:clean_app/services/firebase_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class CartScreen extends StatefulWidget {
@@ -12,120 +13,136 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   int total = 0;
+  bool userLog = false;
+  String? userId;
   @override
   Widget build(BuildContext context) {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+      } else {
+        userLog = true;
+        userId = user.email;
+
+        print('User is signed in!');
+      }
+    });
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: ListView(
-        children: [
-          Container(
-            width: double.infinity,
-            height: screenHeight * 0.55,
-            child: StreamBuilder<List<Book>>(
-              stream: FireService.getBook(),
-              builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return const Center(child: CircularProgressIndicator());
-                  default:
-                    if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    } else {
-                      if (snapshot.data == null) {
-                        return const Text('No data to show');
-                      } else {
-                        final bookings = snapshot.data!;
-
-                        total = TotalCal(book: bookings).calculateTotal();
-
-                        return ListView.builder(
-                          itemCount: bookings.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return builtService(bookings[index]);
-                          },
-                        );
-                      }
-                    }
-                }
-              },
-            ),
-          ),
-          Container(
-            height: screenHeight * 0.45,
-            decoration: const BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    blurRadius: 6,
-                    offset: Offset(0.0, -1.0),
-                  )
-                ],
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30))),
-            child: Column(
+      body: userLog == true
+          ? ListView(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Center(
-                      child: Container(
-                    width: screenWidth * 0.1,
-                    height: 7,
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(141, 158, 158, 158),
-                        borderRadius: BorderRadius.circular(30)),
-                  )),
+                Container(
+                  width: double.infinity,
+                  height: screenHeight * 0.55,
+                  child: StreamBuilder<List<Book>>(
+                    stream: FireService.getBook(userId!),
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        default:
+                          if (snapshot.hasError) {
+                            return Center(
+                                child: Text('Error: ${snapshot.error}'));
+                          } else {
+                            if (snapshot.data == null) {
+                              return const Text('No data to show');
+                            } else {
+                              final bookings = snapshot.data!;
+
+                              total = TotalCal(book: bookings).calculateTotal();
+
+                              return ListView.builder(
+                                itemCount: bookings.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return builtService(bookings[index]);
+                                },
+                              );
+                            }
+                          }
+                      }
+                    },
+                  ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Row(
-                    children: const [
-                      Text(
-                        "Total",
-                        style: TextStyle(
-                            color: Colors.purple,
-                            fontSize: 32,
-                            fontWeight: FontWeight.w600),
+                Container(
+                  height: screenHeight * 0.45,
+                  decoration: const BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey,
+                          blurRadius: 6,
+                          offset: Offset(0.0, -1.0),
+                        )
+                      ],
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30))),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Center(
+                            child: Container(
+                          width: screenWidth * 0.1,
+                          height: 7,
+                          decoration: BoxDecoration(
+                              color: Color.fromARGB(141, 158, 158, 158),
+                              borderRadius: BorderRadius.circular(30)),
+                        )),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Row(
+                          children: const [
+                            Text(
+                              "Total",
+                              style: TextStyle(
+                                  color: Colors.purple,
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Center(
+                        child: Container(
+                          width: screenWidth * 0.9,
+                          height: 1,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0),
+                        child: InkWell(
+                          child: Container(
+                            width: screenWidth * 0.7,
+                            decoration: BoxDecoration(
+                                color: Colors.lightGreen,
+                                borderRadius: BorderRadius.circular(25)),
+                            padding: const EdgeInsets.all(20),
+                            child: const Center(
+                                child: Text(
+                              "Check Out",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600),
+                            )),
+                          ),
+                        ),
+                      )
                     ],
-                  ),
-                ),
-                Center(
-                  child: Container(
-                    width: screenWidth * 0.9,
-                    height: 1,
-                    color: Colors.grey,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: InkWell(
-                    child: Container(
-                      width: screenWidth * 0.7,
-                      decoration: BoxDecoration(
-                          color: Colors.lightGreen,
-                          borderRadius: BorderRadius.circular(25)),
-                      padding: const EdgeInsets.all(20),
-                      child: const Center(
-                          child: Text(
-                        "Check Out",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600),
-                      )),
-                    ),
                   ),
                 )
               ],
-            ),
-          )
-        ],
-      ),
+            )
+          : const Center(child: Text("Please Log!")),
     );
   }
 
