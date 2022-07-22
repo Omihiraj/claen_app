@@ -1,5 +1,6 @@
 import 'package:clean_app/models/service.dart';
 import 'package:clean_app/services/firebase_service.dart';
+import 'package:clean_app/views/pages/all_services.dart';
 import 'package:clean_app/views/pages/service_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -188,19 +189,25 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
+            children: [
+              const Text(
                 "Services",
                 style: TextStyle(
                     color: Colors.purple,
                     fontSize: 24,
                     fontWeight: FontWeight.bold),
               ),
-              Text(
-                "See All>>",
-                style: TextStyle(
-                  color: Colors.purple,
-                  fontSize: 16,
+              InkWell(
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AllService())),
+                child: const Text(
+                  "See All>>",
+                  style: TextStyle(
+                    color: Colors.purple,
+                    fontSize: 16,
+                  ),
                 ),
               )
             ],
@@ -321,6 +328,13 @@ class _HomeScreenState extends State<HomeScreen> {
               blurRadius: 4.0,
             ),
           ], borderRadius: BorderRadius.circular(100), color: Colors.white),
+          child: Center(
+              child: Image.asset(
+            img,
+            width: 50,
+            height: 50,
+            fit: BoxFit.fill,
+          )),
         ),
         Text(catName),
       ],

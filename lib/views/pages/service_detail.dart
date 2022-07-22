@@ -1,3 +1,4 @@
+import 'package:clean_app/main.dart';
 import 'package:clean_app/models/service.dart';
 import 'package:clean_app/services/firebase_service.dart';
 import 'package:clean_app/services/location_finder.dart';
@@ -348,9 +349,10 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                             stream: FirebaseAuth.instance.authStateChanges(),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                return ServiceDetails(
-                                  service: widget.service,
-                                );
+                                // return ServiceDetails(
+                                //   service: widget.service,
+                                // );
+                                return const MainPage();
                               } else {
                                 return const AuthPage();
                               }

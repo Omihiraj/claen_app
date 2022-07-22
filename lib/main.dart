@@ -3,6 +3,7 @@ import 'package:clean_app/views/cart_screen.dart';
 
 import 'package:clean_app/views/home_screen.dart';
 import 'package:clean_app/views/order_screen.dart';
+import 'package:clean_app/views/pages/all_services.dart';
 import 'package:clean_app/views/user_screen.dart';
 import 'package:clean_app/widgets/custom_nav_bar.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -69,7 +70,10 @@ class _MainPageState extends State<MainPage> {
         onChangedTab: onChangedTab,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const AllService()));
+        },
         child: Icon(Icons.add),
         backgroundColor: Colors.lightGreen,
         splashColor: Colors.purple,

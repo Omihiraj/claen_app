@@ -48,71 +48,78 @@ class _OrderScreenState extends State<OrderScreen> {
                   )
                 ]),
           ),
-          body: TabBarView(children: [
-            userLog == true
-                ? StreamBuilder<List<Book>>(
-                    stream: FireService.activeOrders(""),
-                    builder: (context, snapshot) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.waiting:
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        default:
-                          if (snapshot.hasError) {
-                            return Center(
-                                child: Text('Error: ${snapshot.error}'));
-                          } else {
-                            if (snapshot.data == null) {
-                              return const Text('No data to show');
+          body: StreamBuilder<User?>(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final user = FirebaseAuth.instance.currentUser!;
+                  return TabBarView(children: [
+                    StreamBuilder<List<Book>>(
+                      stream: FireService.activeOrders(user.email!),
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          default:
+                            if (snapshot.hasError) {
+                              return Center(
+                                  child: Text('Error: ${snapshot.error}'));
                             } else {
-                              final bookings = snapshot.data!;
+                              if (snapshot.data == null) {
+                                return const Text('No data to show');
+                              } else {
+                                final bookings = snapshot.data!;
 
-                              return ListView.builder(
-                                itemCount: bookings.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return builtService(bookings[index]);
-                                },
-                              );
+                                return ListView.builder(
+                                  itemCount: bookings.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return builtService(bookings[index]);
+                                  },
+                                );
+                              }
                             }
-                          }
-                      }
-                    },
-                  )
-                : const Center(child: Text("Please Log!")),
-            userLog == true
-                ? StreamBuilder<List<Book>>(
-                    stream: FireService.completeOrders(""),
-                    builder: (context, snapshot) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.waiting:
-                          return const Center(
-                              child: CircularProgressIndicator());
+                        }
+                      },
+                    ),
+                    StreamBuilder<List<Book>>(
+                      stream: FireService.completeOrders(user.email!),
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                            return const Center(
+                                child: CircularProgressIndicator());
 
-                        default:
-                          if (snapshot.hasError) {
-                            return Center(
-                                child: Text('Error: ${snapshot.error}'));
-                          } else {
-                            if (snapshot.data == null) {
-                              return const Text(
-                                'No data to show',
-                              );
+                          default:
+                            if (snapshot.hasError) {
+                              return Center(
+                                  child: Text('Error: ${snapshot.error}'));
                             } else {
-                              final bookings = snapshot.data!;
+                              if (snapshot.data == null) {
+                                return const Text(
+                                  'No data to show',
+                                );
+                              } else {
+                                final bookings = snapshot.data!;
 
-                              return ListView.builder(
-                                itemCount: bookings.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return builtService(bookings[index]);
-                                },
-                              );
+                                return ListView.builder(
+                                  itemCount: bookings.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return builtService(bookings[index]);
+                                  },
+                                );
+                              }
                             }
-                          }
-                      }
-                    },
-                  )
-                : const Center(child: Text("Please Log!")),
-          ])),
+                        }
+                      },
+                    ),
+                  ]);
+                } else {
+                  return const Center(child: Text("Please Log"));
+                }
+              })),
     );
   }
 
