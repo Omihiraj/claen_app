@@ -11,20 +11,20 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
-  bool userLog = false;
+  bool userLog = true;
   String? userId;
   @override
   Widget build(BuildContext context) {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        userLog = true;
-        userId = user.email;
+    // FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    //   if (user == null) {
+    //     print('User is currently signed out!');
+    //   } else {
+    //     userLog = true;
+    //     userId = user.email;
 
-        print('User is signed in!');
-      }
-    });
+    //     print('User is signed in!');
+    //   }
+    // });
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -51,7 +51,7 @@ class _OrderScreenState extends State<OrderScreen> {
           body: TabBarView(children: [
             userLog == true
                 ? StreamBuilder<List<Book>>(
-                    stream: FireService.activeOrders(userId!),
+                    stream: FireService.activeOrders(""),
                     builder: (context, snapshot) {
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
@@ -81,7 +81,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 : const Center(child: Text("Please Log!")),
             userLog == true
                 ? StreamBuilder<List<Book>>(
-                    stream: FireService.completeOrders(userId!),
+                    stream: FireService.completeOrders(""),
                     builder: (context, snapshot) {
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:

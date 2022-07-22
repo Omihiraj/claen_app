@@ -13,6 +13,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  List<String> imgList = [
+    "assets/cleaningvector.png",
+    "assets/Laundry.png",
+    "assets/Painting.png",
+    "assets/Reparing.png",
+    "assets/cleaningvector.png"
+  ];
+  List<String> catNameList = [
+    "Cleaning",
+    "Laundary",
+    "Painting",
+    "Repairing",
+    "Cleaning"
+  ];
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -163,9 +177,11 @@ class _HomeScreenState extends State<HomeScreen> {
         Container(
           height: 120,
           child: ListView.builder(
-              itemCount: 10,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) => categoryItem()),
+            itemCount: 5,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) =>
+                categoryItem(imgList[index], catNameList[index]),
+          ),
         ),
         const SizedBox(height: 15),
         Padding(
@@ -291,7 +307,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget categoryItem() {
+  Widget categoryItem(String img, String catName) {
     return Column(
       children: [
         Container(
@@ -306,7 +322,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ], borderRadius: BorderRadius.circular(100), color: Colors.white),
         ),
-        Text("Cleaning"),
+        Text(catName),
       ],
     );
   }

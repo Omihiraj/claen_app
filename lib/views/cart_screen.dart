@@ -13,20 +13,20 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   int total = 0;
-  bool userLog = false;
+  bool userLog = true;
   String? userId;
   @override
   Widget build(BuildContext context) {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        userLog = true;
-        userId = user.email;
+    // FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    //   if (user == null) {
+    //     print('User is currently signed out!');
+    //   } else {
+    //     userLog = true;
+    //     userId = user.email;
 
-        print('User is signed in!');
-      }
-    });
+    //     print('User is signed in!');
+    //   }
+    // });
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
@@ -39,7 +39,7 @@ class _CartScreenState extends State<CartScreen> {
                   width: double.infinity,
                   height: screenHeight * 0.55,
                   child: StreamBuilder<List<Book>>(
-                    stream: FireService.getBook(userId!),
+                    stream: FireService.getBook(""),
                     builder: (context, snapshot) {
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:

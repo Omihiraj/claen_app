@@ -17,6 +17,7 @@ class Calculator {
       required this.alt,
       required this.serviceId});
 
+  late int data;
   calculate() {
     double distanceInMeters = 0;
     double minDistance = 9000000;
@@ -32,6 +33,7 @@ class Calculator {
         if (minDistance > distanceInMeters) {
           minDistance = distanceInMeters;
           price = value[i].price;
+          //print(data);
         }
       }
     });
