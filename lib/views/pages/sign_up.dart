@@ -34,7 +34,8 @@ class _SignUpState extends State<SignUp> {
         child: ListView(children: [
           Image.asset(
             'assets/spruce-logo.png',
-            width: screenWidth,
+            width: screenWidth / 2,
+            height: screenWidth / 2,
           ),
           const SizedBox(
             height: 10,
