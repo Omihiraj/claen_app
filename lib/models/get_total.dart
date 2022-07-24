@@ -10,4 +10,10 @@ class GetTotal extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  void reset() {
+    _total = 0;
+
+    notifyListeners();
+  }
 }

@@ -1,9 +1,11 @@
 import 'package:clean_app/constants/constants.dart';
 import 'package:clean_app/models/book.dart';
+import 'package:clean_app/models/get_total.dart';
 
 import 'package:clean_app/services/firebase_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -16,6 +18,7 @@ class _CartScreenState extends State<CartScreen> {
   int total = 0;
   bool userLog = true;
   String? userId;
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -28,6 +31,7 @@ class _CartScreenState extends State<CartScreen> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               final user = FirebaseAuth.instance.currentUser!;
+
               return ListView(
                 children: [
                   Container(
@@ -49,10 +53,7 @@ class _CartScreenState extends State<CartScreen> {
                                 return const Text('No data to show');
                               } else {
                                 final bookings = snapshot.data!;
-
-                                total =
-                                    TotalCal(book: bookings).calculateTotal();
-
+                                FireService.getTotal(user.email!, context);
                                 return ListView.builder(
                                   itemCount: bookings.length,
                                   itemBuilder:
@@ -96,13 +97,25 @@ class _CartScreenState extends State<CartScreen> {
                         Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Row(
-                            children: const [
-                              Text(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              const Text(
                                 "Total",
                                 style: TextStyle(
                                     color: secondaryColor,
                                     fontSize: 32,
                                     fontWeight: FontWeight.w600),
+                              ),
+                              Consumer<GetTotal>(
+                                builder: (context, cart, child) {
+                                  return Text(
+                                    '\$${cart.totalPrice}.00',
+                                    style: const TextStyle(
+                                        color: secondaryColor,
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w600),
+                                  );
+                                },
                               ),
                             ],
                           ),
@@ -247,18 +260,5 @@ class _CartScreenState extends State<CartScreen> {
             )),
       ),
     );
-  }
-}
-
-class TotalCal {
-  final List<Book> book;
-  TotalCal({required this.book});
-
-  calculateTotal() {
-    int total = 0;
-    for (int i = 0; i < book.length; i++) {
-      total += book[i].price;
-    }
-    return total;
   }
 }

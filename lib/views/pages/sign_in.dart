@@ -15,7 +15,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final emailController = TextEditingController();
   final passController = TextEditingController();
-  bool isPassVisible = false;
+  bool isPassVisible = true;
 
   @override
   void dispose() {

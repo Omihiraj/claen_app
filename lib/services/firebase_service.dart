@@ -1,10 +1,13 @@
 import 'package:clean_app/models/book.dart';
+import 'package:clean_app/models/get_total.dart';
 import 'package:clean_app/models/location.dart';
 import 'package:clean_app/models/service.dart';
+import 'package:clean_app/models/user_data.dart';
 import 'package:clean_app/views/cart_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class FireService {
   static Stream<List<Service>> getServices() => FirebaseFirestore.instance
@@ -108,4 +111,15 @@ class FireService {
       print(e);
     }
   }
+
+  static getTotal(String id, context) => FirebaseFirestore.instance
+          .collection('booking')
+          .where("user-id", isEqualTo: id)
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        Provider.of<GetTotal>(context, listen: false).reset();
+        querySnapshot.docs.forEach((doc) {
+          Provider.of<GetTotal>(context, listen: false).add(doc["price"]);
+        });
+      });
 }

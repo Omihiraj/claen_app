@@ -186,15 +186,16 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               )),
             ),
             InkWell(
-              onTap: () {
+              onTap: () async {
                 Calculator sum = Calculator(
                     bedNo: rooms,
                     hours: hours,
                     lat: "4.5",
                     alt: "2.5",
                     serviceId: widget.service.id);
+                total = await sum.calculate();
                 setState(() {
-                  total = sum.calculate();
+                  total = total;
                 });
               },
               child: Container(

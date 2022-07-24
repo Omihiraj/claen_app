@@ -62,10 +62,13 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.white,
           child: ListView(
             children: [
-              const SizedBox(
-                height: 50,
+              DrawerHeader(
+                child: Image.asset(
+                  "assets/spruce-logo.png",
+                  height: 100,
+                  width: 100,
+                ),
               ),
-              Image.asset("assets/spruce-logo.png"),
               const Center(
                   child: Text(
                 "About",

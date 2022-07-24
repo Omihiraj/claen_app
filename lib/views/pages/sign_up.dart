@@ -15,7 +15,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final emailController = TextEditingController();
   final passController = TextEditingController();
-  bool isPassVisible = false;
+  bool isPassVisible = true;
 
   @override
   void dispose() {
