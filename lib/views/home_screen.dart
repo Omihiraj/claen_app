@@ -1,3 +1,4 @@
+import 'package:clean_app/constants/constants.dart';
 import 'package:clean_app/models/service.dart';
 import 'package:clean_app/services/firebase_service.dart';
 import 'package:clean_app/views/pages/all_services.dart';
@@ -120,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     "What",
                     style: TextStyle(
-                        color: Colors.purple,
+                        color: secondaryColor,
                         fontSize: 30,
                         fontWeight: FontWeight.bold),
                   ),
@@ -128,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     "Service do",
                     style: TextStyle(
-                        color: Colors.purple,
+                        color: secondaryColor,
                         fontSize: 30,
                         fontWeight: FontWeight.bold),
                   ),
@@ -136,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     "you need?",
                     style: TextStyle(
-                        color: Colors.purple,
+                        color: secondaryColor,
                         fontSize: 30,
                         fontWeight: FontWeight.bold),
                   )
@@ -160,14 +161,14 @@ class _HomeScreenState extends State<HomeScreen> {
               Text(
                 "Category",
                 style: TextStyle(
-                    color: Colors.purple,
+                    color: secondaryColor,
                     fontSize: 24,
                     fontWeight: FontWeight.bold),
               ),
               Text(
                 "See All>>",
                 style: TextStyle(
-                  color: Colors.purple,
+                  color: secondaryColor,
                   fontSize: 16,
                 ),
               )
@@ -193,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const Text(
                 "Services",
                 style: TextStyle(
-                    color: Colors.purple,
+                    color: secondaryColor,
                     fontSize: 24,
                     fontWeight: FontWeight.bold),
               ),
@@ -205,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: const Text(
                   "See All>>",
                   style: TextStyle(
-                    color: Colors.purple,
+                    color: secondaryColor,
                     fontSize: 16,
                   ),
                 ),

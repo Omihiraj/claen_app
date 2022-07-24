@@ -1,3 +1,4 @@
+import 'package:clean_app/constants/constants.dart';
 import 'package:clean_app/models/book.dart';
 
 import 'package:clean_app/services/firebase_service.dart';
@@ -99,7 +100,7 @@ class _CartScreenState extends State<CartScreen> {
                               Text(
                                 "Total",
                                 style: TextStyle(
-                                    color: Colors.purple,
+                                    color: secondaryColor,
                                     fontSize: 32,
                                     fontWeight: FontWeight.w600),
                               ),
@@ -119,7 +120,7 @@ class _CartScreenState extends State<CartScreen> {
                             child: Container(
                               width: screenWidth * 0.7,
                               decoration: BoxDecoration(
-                                  color: Colors.lightGreen,
+                                  color: primaryColor,
                                   borderRadius: BorderRadius.circular(25)),
                               padding: const EdgeInsets.all(20),
                               child: const Center(
@@ -201,38 +202,38 @@ class _CartScreenState extends State<CartScreen> {
                       children: [
                         const Icon(
                           Icons.bed,
-                          color: Colors.lightGreen,
+                          color: primaryColor,
                         ),
                         Text(
                           book.beds.toString(),
                           style: const TextStyle(
-                              color: Colors.purple, fontSize: 20),
+                              color: secondaryColor, fontSize: 20),
                         ),
                         const SizedBox(
                           width: 20,
                         ),
                         const Icon(Icons.timelapse_rounded,
-                            color: Colors.lightGreen),
+                            color: primaryColor),
                         Text(
                           book.hours.toString() + "hrs",
                           style: const TextStyle(
-                              color: Colors.purple, fontSize: 20),
+                              color: secondaryColor, fontSize: 20),
                         ),
                         const SizedBox(
                           width: 20,
                         ),
-                        const Icon(Icons.person, color: Colors.lightGreen),
+                        const Icon(Icons.person, color: primaryColor),
                         Text(
                           book.cleaners.toString(),
                           style: const TextStyle(
-                              color: Colors.purple, fontSize: 20),
+                              color: secondaryColor, fontSize: 20),
                         )
                       ],
                     ),
                     const SizedBox(height: 10),
                     Text("\$${book.price}.00",
-                        style:
-                            const TextStyle(color: Colors.purple, fontSize: 20))
+                        style: const TextStyle(
+                            color: secondaryColor, fontSize: 20))
                   ],
                 ),
                 IconButton(

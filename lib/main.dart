@@ -1,3 +1,4 @@
+import 'package:clean_app/constants/constants.dart';
 import 'package:clean_app/models/get_total.dart';
 import 'package:clean_app/views/cart_screen.dart';
 
@@ -50,7 +51,7 @@ class _MainPageState extends State<MainPage> {
       body: screens[index],
       //body: const Text("Hello"),
       // bottomNavigationBar: NavigationBarTheme(
-      //     data: const NavigationBarThemeData(indicatorColor: Colors.lightGreen),
+      //     data: const NavigationBarThemeData(indicatorColor: primaryColor),
       //     child: NavigationBar(
       //         selectedIndex: index,
       //         onDestinationSelected: (index) => setState(() {
@@ -75,8 +76,8 @@ class _MainPageState extends State<MainPage> {
               MaterialPageRoute(builder: (context) => const AllService()));
         },
         child: Icon(Icons.add),
-        backgroundColor: Colors.lightGreen,
-        splashColor: Colors.purple,
+        backgroundColor: primaryColor,
+        splashColor: secondaryColor,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

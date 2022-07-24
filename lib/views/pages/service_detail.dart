@@ -1,3 +1,4 @@
+import 'package:clean_app/constants/constants.dart';
 import 'package:clean_app/main.dart';
 import 'package:clean_app/models/service.dart';
 import 'package:clean_app/services/firebase_service.dart';
@@ -66,7 +67,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
       appBar: AppBar(
         title: const Text(
           "Order Details",
-          style: TextStyle(color: Colors.purple),
+          style: TextStyle(color: secondaryColor),
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -110,7 +111,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       child: Text(widget.service.name,
                           maxLines: 2,
                           style: const TextStyle(
-                              color: Colors.purple,
+                              color: secondaryColor,
                               fontSize: 28,
                               fontWeight: FontWeight.bold)),
                     )
@@ -124,7 +125,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           padding: EdgeInsets.only(left: 10.0),
           child: Text("Number of Rooms",
               style: TextStyle(
-                  color: Colors.purple,
+                  color: secondaryColor,
                   fontSize: 24,
                   fontWeight: FontWeight.bold)),
         ),
@@ -136,7 +137,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           padding: EdgeInsets.only(left: 10.0),
           child: Text("Number of Hours",
               style: TextStyle(
-                  color: Colors.purple,
+                  color: secondaryColor,
                   fontSize: 24,
                   fontWeight: FontWeight.bold)),
         ),
@@ -148,7 +149,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           padding: EdgeInsets.only(left: 10.0),
           child: Text("Number of Cleaners",
               style: TextStyle(
-                  color: Colors.purple,
+                  color: secondaryColor,
                   fontSize: 24,
                   fontWeight: FontWeight.bold)),
         ),
@@ -179,7 +180,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                   child: Text(
                 "\$$total.00",
                 style: const TextStyle(
-                    color: Colors.purple,
+                    color: secondaryColor,
                     fontSize: 28,
                     fontWeight: FontWeight.w500),
               )),
@@ -203,7 +204,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                   borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(10),
                       topRight: Radius.circular(10)),
-                  color: Colors.purple,
+                  color: secondaryColor,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey,
@@ -231,7 +232,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           padding: EdgeInsets.only(left: 10.0),
           child: Text("Select Date",
               style: TextStyle(
-                  color: Colors.purple,
+                  color: secondaryColor,
                   fontSize: 24,
                   fontWeight: FontWeight.bold)),
         ),
@@ -259,7 +260,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               ),
               child: const Text("Select Time",
                   style: TextStyle(
-                      color: Colors.purple,
+                      color: secondaryColor,
                       fontSize: 24,
                       fontWeight: FontWeight.bold)),
             ),
@@ -270,9 +271,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       return Theme(
                         data: Theme.of(context).copyWith(
                           colorScheme: const ColorScheme.light(
-                            primary: Colors.purple, // <-- SEE HERE
+                            primary: secondaryColor, // <-- SEE HERE
                             onPrimary: Colors.white, // <-- SEE HERE
-                            onSurface: Colors.lightGreen, // <-- SEE HERE
+                            onSurface: primaryColor, // <-- SEE HERE
                           ),
                           textButtonTheme: TextButtonThemeData(
                             style: TextButton.styleFrom(
@@ -314,7 +315,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                           ":" +
                           (time.minute).toString().padLeft(2, '0'),
                       style: const TextStyle(
-                          color: Colors.lightGreen,
+                          color: primaryColor,
                           fontSize: 24,
                           fontWeight: FontWeight.bold)),
                 )),
@@ -365,7 +366,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.horizontal(
                     left: Radius.circular(30), right: Radius.circular(30)),
-                color: Colors.lightGreen,
+                color: primaryColor,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey,
@@ -395,11 +396,11 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   checkColor(Status status, int itemNo, String widgetType) {
     if (widgetType == "Container") {
       if (status == Status.cleaner && cleaners == itemNo) {
-        return Colors.lightGreen;
+        return primaryColor;
       } else if (status == Status.hour && hours == itemNo) {
-        return Colors.lightGreen;
+        return primaryColor;
       } else if (status == Status.room && rooms == itemNo) {
-        return Colors.lightGreen;
+        return primaryColor;
       } else {
         return Colors.white;
       }
@@ -493,9 +494,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                         blurRadius: 6.0,
                       ),
                     ],
-                    color: index == daySelectItem
-                        ? Colors.lightGreen
-                        : Colors.white),
+                    color:
+                        index == daySelectItem ? primaryColor : Colors.white),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -537,94 +537,3 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         }));
   }
 }
-//   Widget dropDownBed() {
-//     return DropdownButton<String>(
-//       value: bedNo,
-//       icon: const Icon(Icons.arrow_downward),
-//       elevation: 16,
-//       style: const TextStyle(color: Colors.deepPurple),
-//       onChanged: (String? newValue) {
-//         setState(() {
-//           bedNo = newValue!;
-//         });
-//       },
-//       items: <String>['1', '2', '3', '4', '5', '6', '7', '8']
-//           .map<DropdownMenuItem<String>>((String value) {
-//         return DropdownMenuItem<String>(
-//           value: value,
-//           child: Text(value),
-//         );
-//       }).toList(),
-//     );
-//   }
-
-//   Widget dropDownHour() {
-//     return DropdownButton<String>(
-//       value: hours,
-//       icon: const Icon(Icons.arrow_downward),
-//       elevation: 16,
-//       style: const TextStyle(color: Colors.deepPurple),
-//       onChanged: (String? newValue) {
-//         setState(() {
-//           hours = newValue!;
-//         });
-//       },
-//       items: <String>['2', '3', '4', '5', '6', '7', '8', '9']
-//           .map<DropdownMenuItem<String>>((String value) {
-//         return DropdownMenuItem<String>(
-//           value: value,
-//           child: Text(value),
-//         );
-//       }).toList(),
-//     );
-//   }
-// }
-
-
-
-
-// Column(
-//           children: [
-//             Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: [const Text("No Of Beedrooms"), dropDownBed()]),
-//             const SizedBox(
-//               height: 10,
-//             ),
-//             Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: [const Text("No Of Hours"), dropDownHour()]),
-//             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-//               Text("Total :$total"),
-//               TextButton(
-//                   onPressed: () {
-//                     Calculator sum = Calculator(
-//                         bedNo: int.parse(bedNo),
-//                         hours: int.parse(hours),
-//                         lat: "4.5",
-//                         alt: "2.5",
-//                         serviceId: widget.service.id);
-//                     setState(() {
-//                       total = sum.calculate();
-//                     });
-//                   },
-//                   child: const Text("Calculate"))
-//             ])
-//           ],
-//         ),
-//         TextButton(
-//             onPressed: () {
-//               FireService.putBook(
-//                   userId: "1234",
-//                   beds: int.parse(bedNo),
-//                   cleaners: 5,
-//                   date: Timestamp.fromDate(DateTime.now()),
-//                   hours: int.parse(hours),
-//                   location: [],
-//                   materials: {"1": 1},
-//                   price: 20,
-//                   serviceId: "",
-//                   img: "",
-//                   serviceName: "");
-//             },
-//             child: Text("Send"))

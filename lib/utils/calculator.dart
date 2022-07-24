@@ -23,7 +23,7 @@ class Calculator {
     double minDistance = 9000000;
     int price = 0;
     Future<List<Location>> location = FireService.getLocations(serviceId).first;
-    location.then((value) {
+    Future<int> lastPrice = location.then((value) async {
       for (int i = 0; i < value.length; i++) {
         distanceInMeters = Geolocator.distanceBetween(
             double.parse(lat),
@@ -35,9 +35,12 @@ class Calculator {
           price = value[i].price;
         }
         nearPrice = price;
-        print(nearPrice);
       }
+      return nearPrice;
     });
+    // int las = await nearPrice ;
+
+    // print(las);
     return bedNo * hours * 10;
   }
 }

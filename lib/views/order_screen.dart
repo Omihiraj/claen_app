@@ -1,3 +1,4 @@
+import 'package:clean_app/constants/constants.dart';
 import 'package:clean_app/models/book.dart';
 import 'package:clean_app/services/firebase_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,13 +33,13 @@ class _OrderScreenState extends State<OrderScreen> {
             backgroundColor: Colors.white,
             title: const Text(
               "Orders",
-              style: TextStyle(color: Colors.purple, fontSize: 32),
+              style: TextStyle(color: secondaryColor, fontSize: 32),
             ),
             centerTitle: true,
             bottom: const TabBar(
-                indicatorColor: Colors.purple,
+                indicatorColor: secondaryColor,
                 unselectedLabelColor: Colors.grey,
-                labelColor: Colors.lightGreen,
+                labelColor: primaryColor,
                 tabs: [
                   Tab(
                     text: "Active Orders",
@@ -161,7 +162,7 @@ class _OrderScreenState extends State<OrderScreen> {
                           book.serviceName,
                           style: const TextStyle(
                               fontSize: 20,
-                              color: Colors.lightGreen,
+                              color: primaryColor,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -177,22 +178,22 @@ class _OrderScreenState extends State<OrderScreen> {
                         children: [
                           const Icon(
                             Icons.bed,
-                            color: Colors.lightGreen,
+                            color: primaryColor,
                           ),
                           Text(
                             book.beds.toString(),
                             style: const TextStyle(
-                                color: Colors.purple, fontSize: 20),
+                                color: secondaryColor, fontSize: 20),
                           ),
                           const SizedBox(
                             width: 50,
                           ),
                           const Icon(Icons.timelapse_rounded,
-                              color: Colors.lightGreen),
+                              color: primaryColor),
                           Text(
                             book.hours.toString() + "hrs",
                             style: const TextStyle(
-                                color: Colors.purple, fontSize: 20),
+                                color: secondaryColor, fontSize: 20),
                           )
                         ],
                       )

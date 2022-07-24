@@ -1,3 +1,4 @@
+import 'package:clean_app/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -38,7 +39,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
     final isSelected = index == widget.index;
     return IconTheme(
       data: IconThemeData(
-        color: isSelected ? Colors.lightGreen : Colors.grey,
+        color: isSelected ? primaryColor : Colors.grey,
       ),
       child: IconButton(
         iconSize: 38,

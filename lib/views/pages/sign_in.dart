@@ -1,3 +1,4 @@
+import 'package:clean_app/constants/constants.dart';
 import 'package:clean_app/services/firebase_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -42,7 +43,7 @@ class _SignInState extends State<SignIn> {
             child: Text(
               "Login Now",
               style: TextStyle(
-                  color: Colors.purple,
+                  color: secondaryColor,
                   fontSize: 32,
                   fontWeight: FontWeight.w500),
             ),
@@ -96,7 +97,7 @@ class _SignInState extends State<SignIn> {
                     ),
                     border: InputBorder.none,
                     suffixIcon: IconButton(
-                      highlightColor: Colors.purple,
+                      highlightColor: secondaryColor,
                       icon: isPassVisible
                           ? const Icon(Icons.visibility_off)
                           : const Icon(Icons.visibility),
@@ -122,16 +123,13 @@ class _SignInState extends State<SignIn> {
               margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
               width: double.infinity,
               height: 70,
-              decoration: BoxDecoration(
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.grey,
-                      offset: Offset(0.0, 2.0), //(x,y)
-                      blurRadius: 10.0,
-                    ),
-                  ],
-                  color: Colors.lightGreen,
-                  borderRadius: BorderRadius.circular(30)),
+              decoration: BoxDecoration(boxShadow: const [
+                BoxShadow(
+                  color: Colors.grey,
+                  offset: Offset(0.0, 2.0), //(x,y)
+                  blurRadius: 10.0,
+                ),
+              ], color: primaryColor, borderRadius: BorderRadius.circular(30)),
               child: const Center(
                   child: Text(
                 "Sign In",
@@ -159,7 +157,7 @@ class _SignInState extends State<SignIn> {
                       style: const TextStyle(
                           decoration: TextDecoration.underline,
                           fontWeight: FontWeight.bold,
-                          color: Colors.purple))
+                          color: secondaryColor))
                 ],
               ),
             ),

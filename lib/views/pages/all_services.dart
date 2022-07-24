@@ -1,3 +1,4 @@
+import 'package:clean_app/constants/constants.dart';
 import 'package:clean_app/models/service.dart';
 import 'package:clean_app/services/firebase_service.dart';
 import 'package:clean_app/views/pages/service_detail.dart';
@@ -21,7 +22,7 @@ class _AllServiceState extends State<AllService> {
         leading: Container(),
         title: const Text("Services", style: TextStyle(color: Colors.white)),
         centerTitle: true,
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: primaryColor,
       ),
       body: ListView(
         children: [
