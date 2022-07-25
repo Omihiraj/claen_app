@@ -1,6 +1,7 @@
 import 'package:clean_app/constants/constants.dart';
 import 'package:clean_app/models/book.dart';
 import 'package:clean_app/services/firebase_service.dart';
+import 'package:clean_app/views/pages/booking_extend.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -129,12 +130,8 @@ class _OrderScreenState extends State<OrderScreen> {
     return Padding(
       padding: EdgeInsets.all(screenWidth * 0.025),
       child: InkWell(
-        // onTap: () => Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => ServiceDetails(
-        //               service: service,
-        //             ))),
+        onTap: () => Navigator.push(context,
+            MaterialPageRoute(builder: (context) => BookExtend(service: book))),
         child: Container(
             decoration: BoxDecoration(
                 boxShadow: const [

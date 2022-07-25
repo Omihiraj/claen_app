@@ -1,5 +1,6 @@
 import 'package:clean_app/constants/constants.dart';
 import 'package:clean_app/models/get_total.dart';
+import 'package:clean_app/utils/snack_bar.dart';
 import 'package:clean_app/views/cart_screen.dart';
 
 import 'package:clean_app/views/home_screen.dart';
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      scaffoldMessengerKey: Utils.messengerKey,
       debugShowCheckedModeBanner: false,
       home: MainPage(),
     );

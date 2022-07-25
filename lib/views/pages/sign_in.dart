@@ -1,5 +1,6 @@
 import 'package:clean_app/constants/constants.dart';
 import 'package:clean_app/services/firebase_service.dart';
+import 'package:clean_app/views/pages/forget_pass.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -141,6 +142,23 @@ class _SignInState extends State<SignIn> {
                   color: Colors.white,
                 ),
               )),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const ForgetPass()));
+            },
+            child: const Center(
+              child: Text(
+                "Forgot Password?",
+                style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    color: secondaryColor),
+              ),
             ),
           ),
           const SizedBox(

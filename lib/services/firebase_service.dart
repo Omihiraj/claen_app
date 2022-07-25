@@ -3,6 +3,7 @@ import 'package:clean_app/models/get_total.dart';
 import 'package:clean_app/models/location.dart';
 import 'package:clean_app/models/service.dart';
 import 'package:clean_app/models/user_data.dart';
+import 'package:clean_app/utils/snack_bar.dart';
 import 'package:clean_app/views/cart_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -103,11 +104,24 @@ class FireService {
     }
   }
 
-  static Future signUpFire(String user, String pass) async {
+  static Future signUpFire(String user, String pass, final formKey) async {
+    final isValid = formKey.currentState!.validate();
+    if (!isValid) return;
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: user, password: pass);
     } on FirebaseAuthException catch (e) {
+      Utils.showSnackBar(e.message);
+      print(e);
+    }
+  }
+
+  static Future resetPass(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      Utils.showSnackBar("Password Reset Email Sent");
+    } on FirebaseAuthException catch (e) {
+      Utils.showSnackBar(e.message);
       print(e);
     }
   }
