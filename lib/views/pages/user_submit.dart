@@ -1,18 +1,26 @@
 import 'package:clean_app/constants/constants.dart';
+import 'package:clean_app/models/user_data.dart';
+import 'package:clean_app/services/firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class UserSubmit extends StatefulWidget {
-  const UserSubmit({Key? key}) : super(key: key);
+  final UserData? user;
+  final String userId;
+  const UserSubmit({Key? key, this.user, required this.userId})
+      : super(key: key);
 
   @override
   State<UserSubmit> createState() => _UserSubmitState();
 }
 
 class _UserSubmitState extends State<UserSubmit> {
-  final emailController = TextEditingController();
-  final passController = TextEditingController();
+  final nameController = TextEditingController();
+  final adrsController = TextEditingController();
+  final mobileController = TextEditingController();
+  final bDayController = TextEditingController();
+
   bool isPassVisible = true;
   @override
   Widget build(BuildContext context) {
@@ -38,16 +46,16 @@ class _UserSubmitState extends State<UserSubmit> {
           width: double.infinity,
           height: 60,
           decoration: BoxDecoration(
-              color: Color.fromARGB(115, 226, 220, 220),
+              color: const Color.fromARGB(115, 226, 220, 220),
               borderRadius: BorderRadius.circular(20)),
           child: Center(
             child: TextField(
-              controller: emailController,
+              controller: nameController,
               keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
                 hintText: 'Name',
                 contentPadding:
-                    const EdgeInsets.only(left: 20.0, top: 10, bottom: 10),
+                    EdgeInsets.only(left: 20.0, top: 10, bottom: 10),
                 border: InputBorder.none,
               ),
             ),
@@ -61,16 +69,16 @@ class _UserSubmitState extends State<UserSubmit> {
           width: double.infinity,
           height: 60,
           decoration: BoxDecoration(
-              color: Color.fromARGB(115, 226, 220, 220),
+              color: const Color.fromARGB(115, 226, 220, 220),
               borderRadius: BorderRadius.circular(20)),
           child: Center(
             child: TextField(
-              controller: emailController,
+              controller: adrsController,
               keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
                 hintText: 'Address',
                 contentPadding:
-                    const EdgeInsets.only(left: 20.0, top: 10, bottom: 10),
+                    EdgeInsets.only(left: 20.0, top: 10, bottom: 10),
                 border: InputBorder.none,
               ),
             ),
@@ -84,16 +92,16 @@ class _UserSubmitState extends State<UserSubmit> {
           width: double.infinity,
           height: 60,
           decoration: BoxDecoration(
-              color: Color.fromARGB(115, 226, 220, 220),
+              color: const Color.fromARGB(115, 226, 220, 220),
               borderRadius: BorderRadius.circular(20)),
           child: Center(
             child: TextField(
-              controller: emailController,
+              controller: mobileController,
               keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
-                hintText: 'Email',
+                hintText: 'Mobile',
                 contentPadding:
-                    const EdgeInsets.only(left: 20.0, top: 10, bottom: 10),
+                    EdgeInsets.only(left: 20.0, top: 10, bottom: 10),
                 border: InputBorder.none,
               ),
             ),
@@ -107,30 +115,17 @@ class _UserSubmitState extends State<UserSubmit> {
           width: double.infinity,
           height: 60,
           decoration: BoxDecoration(
-              color: Color.fromARGB(115, 226, 220, 220),
+              color: const Color.fromARGB(115, 226, 220, 220),
               borderRadius: BorderRadius.circular(20)),
           child: Center(
             child: TextField(
-              controller: passController,
-              decoration: InputDecoration(
-                  hintText: 'Password',
-                  contentPadding: const EdgeInsets.only(
-                    left: 20.0,
-                    top: 15,
-                  ),
-                  border: InputBorder.none,
-                  suffixIcon: IconButton(
-                    highlightColor: secondaryColor,
-                    icon: isPassVisible
-                        ? const Icon(Icons.visibility_off)
-                        : const Icon(Icons.visibility),
-                    onPressed: () {
-                      setState(() {
-                        isPassVisible = !isPassVisible;
-                      });
-                    },
-                  )),
-              obscureText: isPassVisible,
+              controller: bDayController,
+              decoration: const InputDecoration(
+                hintText: 'Birth Day',
+                contentPadding:
+                    EdgeInsets.only(left: 20.0, top: 15, bottom: 10),
+                border: InputBorder.none,
+              ),
             ),
           ),
         ),
@@ -138,7 +133,19 @@ class _UserSubmitState extends State<UserSubmit> {
           height: 20,
         ),
         InkWell(
-          onTap: () {},
+          onTap: () {
+            FireService.addUserData(
+                context: context,
+                id: widget.userId,
+                img:
+                    "https://images.unsplash.com/photo-1638803040283-7a5ffd48dad5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
+                name: nameController.text.trim(),
+                mobile: mobileController.text.trim(),
+                address: adrsController.text.trim(),
+                dateofbirth: bDayController.text.trim(),
+                cardNo: "",
+                cvv: "");
+          },
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
             width: double.infinity,
@@ -160,6 +167,9 @@ class _UserSubmitState extends State<UserSubmit> {
               ),
             )),
           ),
+        ),
+        const SizedBox(
+          height: 20,
         ),
       ]),
     );

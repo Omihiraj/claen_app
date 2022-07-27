@@ -16,7 +16,7 @@ class UserData {
   String name;
   String mobile;
   String address;
-  Timestamp dateofbirth;
+  String dateofbirth;
   String cardNo;
   String cvv;
 

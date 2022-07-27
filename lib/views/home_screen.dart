@@ -168,13 +168,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: 24,
                     fontWeight: FontWeight.bold),
               ),
-              Text(
-                "See All>>",
-                style: TextStyle(
-                  color: secondaryColor,
-                  fontSize: 16,
-                ),
-              )
             ],
           ),
         ),

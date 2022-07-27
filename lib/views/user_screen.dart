@@ -40,176 +40,173 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  bool isUserSetup = false;
   @override
   Widget build(BuildContext context) {
+    bool accountSetup = false;
     final screenWidth = MediaQuery.of(context).size.width;
-    final user = FirebaseAuth.instance.currentUser!;
+    final userAc = FirebaseAuth.instance.currentUser!;
     final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
         .collection('users')
-        .where("user-id", isEqualTo: user.email)
+        .where("user-id", isEqualTo: userAc.email)
         .snapshots();
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: primaryColor,
-        leading: Container(),
-        title: const Text("User Details"),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: 400,
-              child: StreamBuilder<QuerySnapshot>(
-                stream: _usersStream,
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasError) {
-                    return const Text('Something went wrong');
-                  }
-
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-
-                  return ListView(
-                      children:
-                          snapshot.data!.docs.map((DocumentSnapshot document) {
-                    Map<String, dynamic> data =
-                        document.data()! as Map<String, dynamic>;
-                    final user = UserData.fromJson(data);
-                    if (data.isNotEmpty) {
-                      isUserSetup = true;
-                    }
-
-                    return Container(
-                        child: Column(children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: Center(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(500),
-                            child: Image.network(
-                              user.img,
-                              width: screenWidth / 2,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: screenWidth * 0.8,
-                        padding: const EdgeInsets.all(5),
-                        color: Colors.grey[200],
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              "Name",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            Text(
-                              user.name,
-                              style: const TextStyle(fontSize: 20),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: screenWidth * 0.8,
-                        padding: const EdgeInsets.all(5),
-                        color: Colors.grey[200],
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              "Address",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            Text(
-                              user.address,
-                              style: const TextStyle(fontSize: 20),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: screenWidth * 0.8,
-                        padding: const EdgeInsets.all(5),
-                        color: Colors.grey[200],
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              "Mobile",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            Text(
-                              user.mobile,
-                              style: const TextStyle(fontSize: 20),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: screenWidth * 0.8,
-                        padding: const EdgeInsets.all(5),
-                        color: Colors.grey[200],
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text(
-                              "Date Of Birth",
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            Text(
-                              "1997-08-09",
-                              style: TextStyle(fontSize: 20),
-                            )
-                          ],
-                        ),
-                      ),
-                    ]));
-                  }).toList());
+        appBar: AppBar(
+          backgroundColor: primaryColor,
+          leading: Container(),
+          title: const Text("User Details"),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              UserSubmit(userId: userAc.email!)));
                 },
-              ),
-            ),
-            isUserSetup == true
-                ? Container()
-                : InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const UserSubmit()));
-                    },
-                    child: Center(
-                        child: Container(
-                      decoration: const BoxDecoration(color: secondaryColor),
-                      padding: const EdgeInsets.all(10),
-                      child: const Text(
-                        "Please Setup Your Details",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    )),
-                  ),
-            TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  textStyle: const TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
+                icon: const Icon(Icons.edit)),
+            IconButton(
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
                 },
-                child: const Text(
-                  "LogOut",
-                  style: TextStyle(color: Colors.white),
-                )),
+                icon: const Icon(Icons.logout))
           ],
         ),
-      ),
-    );
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: 500,
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: _usersStream,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return const Text('Something went wrong');
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    return ListView(
+                        children: snapshot.data!.docs
+                            .map((DocumentSnapshot document) {
+                      Map<String, dynamic> data =
+                          document.data()! as Map<String, dynamic>;
+                      final user = UserData.fromJson(data);
+
+                      return Container(
+                          child: Column(children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          child: Center(
+                            child: ClipRRect(
+                              borderRadius: user.img.isNotEmpty
+                                  ? BorderRadius.circular(500)
+                                  : BorderRadius.circular(0),
+                              child: user.img.isNotEmpty
+                                  ? Image.network(
+                                      user.img,
+                                      width: screenWidth / 2,
+                                    )
+                                  : Image.asset(
+                                      "assets/user.png",
+                                      width: screenWidth / 2,
+                                      fit: BoxFit.cover,
+                                    ),
+                            ),
+                          ),
+                        ),
+                        ListTile(
+                            leading: const Icon(Icons.person),
+                            title: const Text("Name"),
+                            subtitle: user.name.isNotEmpty
+                                ? Text(user.name)
+                                : InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => UserSubmit(
+                                                    user: user,
+                                                    userId: userAc.email!,
+                                                  )));
+                                    },
+                                    child: const Text(
+                                      "Please Setup Your Name >>",
+                                      style: TextStyle(
+                                          color: Colors.blueAccent,
+                                          decoration: TextDecoration.underline),
+                                    ))),
+                        ListTile(
+                            leading: const Icon(Icons.location_on),
+                            title: const Text("Address"),
+                            subtitle: user.address.isNotEmpty
+                                ? Text(user.address)
+                                : InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => UserSubmit(
+                                                  user: user,
+                                                  userId: userAc.email!)));
+                                    },
+                                    child: const Text(
+                                      "Please Setup Your Name >>",
+                                      style: TextStyle(
+                                          color: Colors.blueAccent,
+                                          decoration: TextDecoration.underline),
+                                    ))),
+                        ListTile(
+                            leading: const Icon(Icons.mobile_friendly),
+                            title: const Text("Mobile"),
+                            subtitle: user.mobile.isNotEmpty
+                                ? Text(user.mobile)
+                                : InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => UserSubmit(
+                                                  user: user,
+                                                  userId: userAc.email!)));
+                                    },
+                                    child: const Text(
+                                      "Please Setup Your Name >>",
+                                      style: TextStyle(
+                                          color: Colors.blueAccent,
+                                          decoration: TextDecoration.underline),
+                                    ))),
+                        ListTile(
+                            leading: const Icon(Icons.calendar_month),
+                            title: const Text("Date Of Birth"),
+                            subtitle: user.dateofbirth.isNotEmpty
+                                ? Text(user.dateofbirth)
+                                : InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => UserSubmit(
+                                                  user: user,
+                                                  userId: userAc.email!)));
+                                    },
+                                    child: const Text(
+                                      "Please Setup Your Name >>",
+                                      style: TextStyle(
+                                          color: Colors.blueAccent,
+                                          decoration: TextDecoration.underline),
+                                    ))),
+                      ]));
+                    }).toList());
+                  },
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

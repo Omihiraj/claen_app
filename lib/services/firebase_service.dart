@@ -5,6 +5,7 @@ import 'package:clean_app/models/service.dart';
 import 'package:clean_app/models/user_data.dart';
 import 'package:clean_app/utils/snack_bar.dart';
 import 'package:clean_app/views/cart_screen.dart';
+import 'package:clean_app/views/user_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -136,4 +137,49 @@ class FireService {
           Provider.of<GetTotal>(context, listen: false).add(doc["price"]);
         });
       });
+
+  static Future addUserData({
+    required BuildContext context,
+    required String id,
+    required String img,
+    required String name,
+    required String mobile,
+    required String address,
+    required String dateofbirth,
+    required String cardNo,
+    required String cvv,
+  }) async {
+    final userData = FirebaseFirestore.instance.collection("users").doc(id);
+    final user = UserData(
+        id: id,
+        img: img,
+        name: name,
+        mobile: mobile,
+        address: address,
+        dateofbirth: dateofbirth,
+        cardNo: cardNo,
+        cvv: cvv);
+
+    final json = user.toJson();
+
+    userData.get().then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        userData
+            .update(json)
+            .then((value) => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const UserScreen())))
+            .catchError((error) {
+          print("Some Error Occured");
+        });
+      } else {
+        userData
+            .set(json)
+            .then((value) => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const UserScreen())))
+            .catchError((error) {
+          print("Some Error Occured");
+        });
+      }
+    });
+  }
 }
