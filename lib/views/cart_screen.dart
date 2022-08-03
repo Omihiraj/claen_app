@@ -164,7 +164,7 @@ class _CartScreenState extends State<CartScreen> {
   Widget builtService(Book book) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(7.0),
       child: InkWell(
         // onTap: () => Navigator.push(
         //     context,

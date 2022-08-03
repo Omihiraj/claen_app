@@ -128,7 +128,7 @@ class _OrderScreenState extends State<OrderScreen> {
   Widget builtService(Book book) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Padding(
-      padding: EdgeInsets.all(screenWidth * 0.025),
+      padding: EdgeInsets.all(screenWidth * 0.015),
       child: InkWell(
         onTap: () => Navigator.push(context,
             MaterialPageRoute(builder: (context) => BookExtend(service: book))),
