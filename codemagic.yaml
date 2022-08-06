@@ -1,5 +1,6 @@
 workflows:
-  hello-world:
-    name: Hello world workflow
-    scripts:
-        - echo "Hello World!"
+  my-workflow:                # workflow ID
+    name: My workflow name    # workflow name displayed in Codemagic UI
+    instance_type: mac_mini   # machine instance type
+    max_build_duration: 60    # build duration in minutes (min 1, max 120)
+    
